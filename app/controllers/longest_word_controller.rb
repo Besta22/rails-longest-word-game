@@ -20,8 +20,8 @@ class LongestWordController < ApplicationController
       guess.chars.all? { |letter| guess.count(letter) <= grid.count(letter) }
     end
 
-    def compute_score(attempt, time_taken)
-      (time_taken > 60.0) ? 0 : attempt.size * (1.0 - time_taken / 60.0)
+    def calc_score(attempt, time_taken)
+      (time_taken > 60.0) ? 0 : attempt.length * (1.0 - time_taken / 60.0)
     end
 
     def run_game(attempt, grid, start_time, end_time)
@@ -37,7 +37,7 @@ class LongestWordController < ApplicationController
     def score_and_message(attempt, translation, grid, time)
       if included?(attempt.upcase, grid)
         if translation
-          score = compute_score(attempt, time)
+          score = calc_score(attempt, time)
           [score, "Good Job!"]
         else
           [0, "This is not a word!"]
